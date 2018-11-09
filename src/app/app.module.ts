@@ -1,10 +1,11 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { GoogleBookService } from './shared/google-book.service';
+import { GoogleBooksService } from './shared/google-books.service';
 import { LibraryService } from './shared/library.service';
 import { BookListComponent } from './book-list/book-list.component';
 import { BookDetailComponent } from './book-detail/book-detail.component';
@@ -27,10 +28,12 @@ import { AboutComponent } from './about/about.component';
   imports: [
     BrowserModule,
     HttpClientModule,
+    FormsModule, 
+    ReactiveFormsModule,
     AppRoutingModule,
     UiModule,
   ],
-  providers: [GoogleBookService, LibraryService],
+  providers: [GoogleBooksService, LibraryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

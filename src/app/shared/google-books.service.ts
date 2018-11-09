@@ -6,13 +6,13 @@ import { BookFactory } from './book.factory';
 @Injectable({
   providedIn: 'root'
 })
-export class GoogleBookService {
+export class GoogleBooksService {
 
   private apiUrl: string = 'https://www.googleapis.com/books/v1/volumes';
   public loading: boolean = false;
   public initialised: boolean = false;
   public totalItems: number = 0;
-  public page: number = 1;
+  public _page: number = 1;
   public pageSize: number = 10;
   public query: string = "";
   public books: Book[];
@@ -23,8 +23,29 @@ export class GoogleBookService {
     return this.page * this.pageSize;
   }
 
-  getBooks() {
-    return this.http.get(`this.apiUrl?q=${this.query}&maxResults=${this.pageSize}&startIndex=${this.startIndex}`);
+  get totalPages() {
+    try {
+      return Math.ceil(this.totalItems / this.pageSize);
+    } catch (e) {
+      console.error(e);
+      return 0;
+    }
+  }
+
+  get page(): number {
+    return this._page;
+  }
+
+  set page(val: number) {
+    if (val !== this.page) {
+      this._page = val;
+      this.searchBooks(this.query);
+    }
+  }
+
+  public searchBooks(query: string) {
+    return this.http.get(`${this.apiUrl}?q=${query}&maxResults=${this.pageSize}&startIndex=${this.startIndex}`);
+    //return this.http.get('https://www.googleapis.com/books/v1/volumes/?q=angualar');
   }
 
   private bookFactory(item: any): Book {
