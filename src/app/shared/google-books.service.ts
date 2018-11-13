@@ -19,32 +19,8 @@ export class GoogleBooksService {
 
   constructor(private http: HttpClient) { }
 
-  get startIndex() {
-    return this.page * this.pageSize;
-  }
-
-  get totalPages() {
-    try {
-      return Math.ceil(this.totalItems / this.pageSize);
-    } catch (e) {
-      console.error(e);
-      return 0;
-    }
-  }
-
-  get page(): number {
-    return this._page;
-  }
-
-  set page(val: number) {
-    if (val !== this.page) {
-      this._page = val;
-      this.searchBooks(this.query);
-    }
-  }
-
-  public searchBooks(query: string) {
-    return this.http.get(`${this.apiUrl}?q=${query}&maxResults=${this.pageSize}&startIndex=${this.startIndex}`);
+  public searchBooks(query: string, maxResults: number = 10, startIndex: number = 1) {
+    return this.http.get(`${this.apiUrl}?q=${query}&maxResults=${maxResults}&startIndex=${startIndex}`);
     //return this.http.get('https://www.googleapis.com/books/v1/volumes/?q=angualar');
   }
 

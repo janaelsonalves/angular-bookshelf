@@ -19,6 +19,36 @@ export class BookListComponent implements OnInit {
   public loading: boolean;
   public bookHolder: BookHolder;
 
+  /* Pagination */
+  public _page = 1;
+  public pageSize = 10;
+  public totalItems = 0;
+
+  get startIndex() {
+    return this.page * this.pageSize;
+  }
+
+  get totalPages() {
+    try {
+      return Math.ceil(this.totalItems / this.pageSize);
+    } catch (e) {
+      console.error(e);
+      return 0;
+    }
+  }
+
+  get page(): number {
+    return this._page;
+  }
+
+  set page(val: number) {
+    if (val !== this.page) {
+      this._page = val;
+      /* this.searchBooks(this.query); */
+    }
+  }
+
+
   constructor(public googleBooksService: GoogleBooksService) {
     this.searchTerm = new FormControl('')
   }
